@@ -1,10 +1,9 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import reactCSS from 'reactcss'
 import {PAYPAL_TOKEN, REDIRECT_URL, CANCEL_URL, PAYPAL_BASE_URL} from '../constants/config'
 import {createFetch, base, header, method, json, parseJSON} from 'http-client'
+import { Grid, Row } from 'react-inline-grid'
 
 export default class SendForm extends Component {
 
@@ -40,9 +39,9 @@ export default class SendForm extends Component {
         )
         fetch("/v1/payments/payment").then(resp => {
             const data = resp.jsonData
-            if (data.state == "created") {
+            if (data.state === "created") {
                 const redirectTo = data.links.filter(link => {
-                    return link.method == "REDIRECT"
+                    return link.method === "REDIRECT"
                 })[0].href
                 this.storeAndRedirect(redirectTo)
             }
@@ -109,41 +108,40 @@ export default class SendForm extends Component {
 
 
     render() {
-        const styles = reactCSS({
-            default: {
-                container: {
-                    marginLeft: "5em",
-                    marginRight: "5em",
-                },
-                center: {
-                    margin: 0
-                }
-            }
-        })
         return (
-            <div style={styles.container}>
-                <TextField
-                    hintText="Receiver ID"
-                    onChange={this.handleIdChange}
-                    errorText={this.state.errorId}
-                /><br />
-                <TextField
-                    hintText="Receiver Password"
-                    onChange={this.handlePasswordChange}
-                    errorText={this.state.errorPassword}
-                /><br />
-                <TextField
-                    hintText="Amount (HKD)"
-                    onChange={this.handleAmountChange}
-                    errorText={this.state.errorAmount}
-                /><br/>
-                <FlatButton label="Submit" primary={true}
-                    disabled={
-                        !(this.state.errorPassword === "") && !(this.state.errorAmount === "") &&
-                        !(this.state.errorId === "")
-                    }
-                    onClick={this.makeTransaction}/>
-            </div>
+            <Grid>
+                <div>
+                    <Row is="center">
+                        <TextField
+                            hintText="Receiver ID"
+                            onChange={this.handleIdChange}
+                            errorText={this.state.errorId}
+                        />
+                    </Row>
+                    <Row is="center">
+                        <TextField
+                            hintText="Receiver Password"
+                            onChange={this.handlePasswordChange}
+                            errorText={this.state.errorPassword}
+                        />
+                    </Row>
+                   <Row is="center">
+                       <TextField
+                           hintText="Amount (HKD)"
+                           onChange={this.handleAmountChange}
+                           errorText={this.state.errorAmount}
+                       />
+                   </Row>
+                    <Row is="center">
+                        <FlatButton label="Submit" primary={true}
+                            disabled={
+                                !(this.state.errorPassword === "") && !(this.state.errorAmount === "") &&
+                                !(this.state.errorId === "")
+                            }
+                            onClick={this.makeTransaction}/>
+                    </Row>
+                </div>
+            </Grid>
         )
     }
 }

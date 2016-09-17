@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {createFetch, json, parseJSON, base, method, header} from 'http-client'
 import { API_URL, PAYPAL_BASE_URL, PAYPAL_TOKEN } from '../constants/config'
 import { connect } from 'react-redux'
+import { Grid, Row } from 'react-inline-grid'
 
 class RedirectPage extends Component {
 
@@ -42,7 +43,11 @@ class RedirectPage extends Component {
 
     render() {
         return (
-            <h1>Transaction has been processed</h1>
+            <Grid>
+                <Row is="center">
+                    <h1>Transaction has been processed</h1>
+                </Row>
+            </Grid>
         )
     }
 }

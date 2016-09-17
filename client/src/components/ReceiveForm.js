@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
+import { Grid, Row } from 'react-inline-grid'
 
 export default class ReceiveForm extends Component {
 
@@ -47,28 +48,42 @@ export default class ReceiveForm extends Component {
             <div>
                 {
                     Object.keys(this.props.transaction).length === 0 ?
-                        <div>
-                            <TextField
-                                hintText="Enter your ID"
-                                onChange={this.handleIdChange}
-                            /><br/>
-                            <TextField hintText="Enter your password"
-                                onChange={this.handlePasswordChange}/><br/>
-                            <FlatButton
+                        <Grid>
+                            <div>
+                                <Row is="center">
+                                    <TextField
+                                        hintText="Enter your ID"
+                                        onChange={this.handleIdChange}
+                                    />
+                                </Row>
+                                <Row is="center">
+                                    <TextField hintText="Enter your password"
+                                               onChange={this.handlePasswordChange}/>
+                                </Row>
+                                <Row is="center">
+                                    <FlatButton
                                         label="Verify"
                                         primary={true}
-                                onClick={() => {
-                                    console.log(this.state.val.receiverId, this.state.val.receiverPassword)
-                                    this.props.verifyTransaction(this.state.val.receiverId, this.state.val.receiverPassword)
-                                }}
-                            />
-                        </div> :
-                        <div>
-                            <h1>Transaction amount is: {this.props.transaction.amount} HKD</h1>
-                            <FlatButton primary={true} label="Continue" onClick={() => {
-                                this.props.confirmTransaction(this.props.userId, this.props.transaction._id)
-                            }}/>
-                        </div>
+                                        onClick={() => {
+                                            console.log(this.state.val.receiverId, this.state.val.receiverPassword)
+                                            this.props.verifyTransaction(this.state.val.receiverId, this.state.val.receiverPassword)
+                                        }}
+                                    />
+                                </Row>
+                            </div>
+                        </Grid>:
+                        <Grid>
+                            <div>
+                                <Row is="center">
+                                    <h1>Transaction amount is: {this.props.transaction.amount} HKD</h1>
+                                </Row>
+                                <Row is="center">
+                                    <FlatButton primary={true} label="Continue" onClick={() => {
+                                        this.props.confirmTransaction(this.props.userId, this.props.transaction._id)
+                                    }}/>
+                                </Row>
+                            </div>
+                        </Grid>
                 }
             </div>
         )
