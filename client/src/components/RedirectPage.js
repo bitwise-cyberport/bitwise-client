@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ls from 'local-storage'
 import {createFetch, json, parseJSON, base, method, header} from 'http-client'
-import { SERVER_URL, PAYPAL_BASE_URL, PAYPAL_TOKEN } from '../constants/config'
+import { API_URL, PAYPAL_BASE_URL, PAYPAL_TOKEN } from '../constants/config'
 import { connect } from 'react-redux'
 
 class RedirectPage extends Component {
@@ -14,7 +14,7 @@ class RedirectPage extends Component {
         const PayerID = this.props.location.query.PayerID
         ls.clear()
         const postTransaction = createFetch(
-            base(SERVER_URL),
+            base(API_URL),
             method("POST"),
             json({
                 receiverId,
