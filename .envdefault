@@ -1,2 +1,4 @@
-DATABASE_URL=mongodb://username:password@host:port/database?options...
-PORT_NUMBER=3000
+DATABASE_URL=mongodb://localhost:27017/test
+PORT_NUMBER=3001
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=

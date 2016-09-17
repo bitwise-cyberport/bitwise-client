@@ -1,0 +1,2 @@
+const PAYPAL_CLIENT_ID = ""
+const PAYPAL_CLIENT_SECRET = ""

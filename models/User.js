@@ -1,13 +1,11 @@
 var mongoose = require("mongoose")
+var Schema = mongoose.Schema
 
-var transactionSchema = new mongoose.Schema({
-    receiverId: String,
-    receiverPassword: String,
-    amount: Number,
-    timestamp: { type: Date, default: Date.now() },
-    senderPhone: String,
-    success: Boolean
+var userSchema = new mongoose.Schema({
+    name: String,
+    password: String,
+    mobile: String
 })
 
-var Transaction = mongoose.Model("Transaction", transactionSchema)
-module.exports = Transaction
+var User = mongoose.Model("User", userSchema)
+module.exports = User

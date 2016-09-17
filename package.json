@@ -11,9 +11,9 @@
   "author": "Daniel Hsing <hsing.daniel@gmail.com> (http://arthelon.github.io)",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
+    "express": "^4.14.0",
     "jade": "^1.11.0",
     "mongoose": "^4.5.7"
   }
