@@ -24,6 +24,8 @@ const mg = new mailgun(process.env.MAILGUN_KEY)
 }
  */
 router.post("/", function(req, res, next) {
+    console.log("/api/transaction")
+    console.log(req.body)
     Transaction.create({
         senderId: req.body.userId,
         receiverId: req.body.receiverId,
@@ -80,6 +82,7 @@ const scheduleInTwo = (time, transaction) => {
     userId: string
  */
 router.get("/:userId", function(req, res, next) {
+    console.log("/api/transaction/"+req.params.userId)
     Transaction.find({
         senderId: req.params.userId
     }).sort({timestamp: -1}).exec((err, transactions) => {
@@ -105,13 +108,13 @@ receiverId: string,
 receiverPassword: string
  */
 router.post("/verify", function(req, res, next) {
+    console.log("/api/transaction/verify")
     console.log(req.body)
     Transaction.find({
         receiverId: req.body.receiverId,
         receiverPassword: req.body.receiverPassword,
         success: false
     }, (err, transaction) => {
-        console.log(transaction)
         if (err) {
             next(err)
         } else if (transaction.length == 0) {
@@ -134,6 +137,8 @@ userId: number,
 transactionId: string
  */
 router.post("/confirm", function(req, res, next) {
+    console.log("/api/transaction/confirm")
+    console.log(req.body)
     Transaction.findOne({
         _id: req.body.transactionId,
         success: false
