@@ -14,7 +14,12 @@ var transactionSchema = new mongoose.Schema({
         virtuals: true
     }
 })
-console.log(transactionSchema)
+
+transactionSchema.options.toJSON = {
+    transform: function(doc, ret, options) {
+        delete ret.receiverPassword;
+    }
+};
 
 var Transaction = mongoose.model("Transaction", transactionSchema)
 module.exports = Transaction
