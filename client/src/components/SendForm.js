@@ -5,15 +5,8 @@ import FlatButton from 'material-ui/FlatButton'
 import reactCSS from 'reactcss'
 import {PAYPAL_TOKEN, REDIRECT_URL, CANCEL_URL, PAYPAL_BASE_URL} from '../constants/config'
 import {createFetch, base, header, method, json, parseJSON} from 'http-client'
-import ls from 'local-storage'
 
 export default class SendForm extends Component {
-
-    // static contextTypes = {
-    //     router: React.PropTypes.shape({
-    //         push: React.PropTypes.func
-    //     })
-    // }
 
     state = {
         val: {}
@@ -48,18 +41,21 @@ export default class SendForm extends Component {
         fetch("/v1/payments/payment").then(resp => {
             const data = resp.jsonData
             if (data.state == "created") {
-                console.log("payment creation succeeded")
-                console.log(this.state.val.id, this.state.val.password)
-                ls("userId", this.state.val.id)
-                ls("userPassword", this.state.val.password)
-                ls("amount", this.state.val.amount)
-                location.href  = data.links.filter(link => {
+                const redirectTo = data.links.filter(link => {
                     return link.method == "REDIRECT"
                 })[0].href
+                this.storeAndRedirect(redirectTo)
             }
         }, err => {
             console.log(err)
         })
+    }
+
+    storeAndRedirect = function(url) {
+        console.log("payment creation succeeded")
+        window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount
+        console.log(this.state.val.id, this.state.val.password)
+        location.href  = url
     }
 
     handleIdChange = (e) => {
