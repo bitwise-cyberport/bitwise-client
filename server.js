@@ -35,8 +35,18 @@ var User = require('./models/User')
 //     userId: 1,
 //     name: "Daniel",
 //     password: "nabnabnabnab",
-//     mobile: "+85297098969"
+//     mobile: "+85297098969",
+//     email: "test@nab.com"
 // })
+// User.create({
+//     userId: 2,
+//     name: "Nab",
+//     password: "nabnabnabnab",
+//     mobile: "+85297098969",
+//     email: "admin@nab.com"
+// })
+
+
 
 /** Routes setup **/
 var apiBaseRoute = require("./routes/api/api")

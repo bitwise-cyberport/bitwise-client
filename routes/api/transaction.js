@@ -1,5 +1,14 @@
 var router = require("express").Router()
 var Transaction = require("../../models/Transaction")
+var User = require("../../models/User")
+
+const paypal = require("paypal-rest-sdk")
+paypal.configure({
+    mode: "sandbox",
+    client_id: process.env.PAYPAL_CLIENT_ID,
+    client_secret: process.env.PAYPAL_CLIENT_SECRET
+})
+
 
 /*
 {
@@ -39,6 +48,11 @@ router.get("/:userId", function(req, res, next) {
     }, (err, transactions) => {
         if (err) {
            next(err)
+        } else if (transactions.length == 0) {
+            res.status(400).json({
+                success: false,
+                message: "userId is invalid or no transactions found"
+            })
         } else {
             res.json({
                 success: true,
@@ -72,6 +86,77 @@ router.post("/verify", function(req, res, next) {
                 success: true,
                 message: "Receiver verification succeeded",
                 data: transaction
+            })
+        }
+    })
+})
+
+/*
+userId: number,
+transactionId: string
+ */
+router.post("/confirm", function(req, res, next) {
+    Transaction.findOne({
+        _id: req.body.transactionId
+    }, function(err, transaction) {
+        if (err) {
+            next(err)
+        } else if (!transaction) {
+            res.status(401).json({
+                success: false,
+                message: "invalid transaction id"
+            })
+        } else {
+            User.findOne({
+                userId: req.body.userId
+            }, function(err, user) {
+                if (err) {
+                    next(err)
+                } else if (!user) {
+                    res.status(401).json({
+                        success: false,
+                        message: "invalid user id"
+                    })
+                } else {
+                    console.log("user: " + user)
+                    const amount = transaction.amount
+                    const sender_batch_id = Math.random().toString(36).substring(9);
+                    const sender_item_id = Math.random().toString(36).substring(9);
+                    const payload = {
+                        sender_batch_header: {
+                            recipient_type: "EMAIL",
+                            sender_batch_id,
+                            email_subject: "You have received a payment",
+
+                        },
+                        items: [
+                            {
+                                recipient_type: "EMAIL",
+                                amount: {
+                                    value: amount,
+                                    currency: "HKD"
+                                },
+                                receiver: user.email,
+                                sender_item_id
+                            }
+                        ]
+                    }
+                    console.log(payload)
+                    paypal.payout.create(payload, true, function(err, payout) {
+                        if (err) {
+                            console.log(err.response)
+                            next(err)
+                        } else {
+                            console.log("payout succeeded")
+                            console.log(payout)
+                            res.status(200).json({
+                                success: true,
+                                message: "payout sent",
+                                data: payout
+                            })
+                        }
+                    })
+                }
             })
         }
     })
