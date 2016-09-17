@@ -16,6 +16,7 @@ export default class SendForm extends Component {
             base(PAYPAL_BASE_URL),
             method("POST"),
             header("Authorization", "Bearer " + PAYPAL_TOKEN),
+            header("Content-Type", "application/json"),
             json({
                 intent: "sale",
                 payer: {
@@ -52,7 +53,7 @@ export default class SendForm extends Component {
 
     storeAndRedirect = function(url) {
         console.log("payment creation succeeded")
-        window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount + ";" +
+        window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount
         console.log(this.state.val.id, this.state.val.password)
         location.href  = url
     }

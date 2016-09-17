@@ -36,10 +36,10 @@ class HomeContainer extends Component {
                                 transaction = transaction[1]
                                 return (
                                     <Tr key={transaction._id}>
-                                        <Td column="timestamp">{transaction.timestamp}</Td>
-                                        <Td column="receiverId">{transaction.receiverId}</Td>
-                                        <Td column="amount">{transaction.amount}</Td>
-                                        <Td column="success">{transaction.success}</Td>
+                                        <Td column="timestamp" key={1}>{transaction.timestamp}</Td>
+                                        <Td column="receiverId" key={2}>{transaction.receiverId}</Td>
+                                        <Td column="amount" key={3}>{transaction.amount}</Td>
+                                        <Td column="success" key={4}>{transaction.success}</Td>
                                     </Tr>
                                 )
                             })

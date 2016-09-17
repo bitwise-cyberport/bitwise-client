@@ -9,6 +9,10 @@ paypal.configure({
     client_secret: process.env.PAYPAL_CLIENT_SECRET
 })
 
+const schedule = require("node-schedule")
+const moment = require("moment")
+const mailgun = require("mailgun").Mailgun
+const mg = new mailgun(process.env.MAILGUN_KEY)
 
 /*
 {
@@ -28,17 +32,49 @@ router.post("/", function(req, res, next) {
         success: false,
         paymentId: req.body.paymentId,
         paymentUrl: req.body.paymentUrl
-    }, function(err) {
+    }, function(err, transaction) {
+        console.log("transaction: " + transaction)
         if (err) {
             next(err)
+        } else {
+            console.log(req.body)
+            res.json({
+                success: true,
+                message: "transaction received"
+            })
+            scheduleInTwo(moment(transaction.timestamp).add(2, "days").toDate(), transaction)
         }
     })
-    console.log(req.body)
-    res.json({
-        success: true,
-        message: "transaction received"
-    })
 })
+
+const scheduleInTwo = (time, transaction) => {
+    schedule.scheduleJob(time, function() {
+        Transaction.findOne({
+            _id: transaction._id
+        }, (err, transaction) => {
+            if (err) {
+                console.log("Error before sending transac notif")
+                console.log(err)
+            } else if (!transaction) {
+                console.log("transaction not found")
+            } else {
+                if (!transaction.success) {
+                    User.findOne({
+                        userId: transaction.userId
+                    }, (err, user) => {
+                        if (err) {
+                            console.log(err)
+                        } else if (user) {
+                            mg.sendText("", user.email, "NAB - Transaction confirmation delay", "Dear loyal customer,\n " +
+                                "your transaction seems to be taking a lot of time to go through")
+                        }
+                    })
+                    scheduleInTwo(moment().add(2, "days").toDate(), transaction)
+                }
+            }
+        })
+    })
+}
 
 /*
     userId: string
