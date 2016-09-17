@@ -28,7 +28,7 @@ class Header extends Component {
     render() {
         return (
             <AppBar
-                title={<span style={{cursor: "pointer"}}>NAV</span>}
+                title={<span style={{cursor: "pointer"}}>NAB</span>}
                 iconElementLeft={
                     <IconButton onClick={this.props.userId === 1 ?
                         () => {
