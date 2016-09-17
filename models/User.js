@@ -7,5 +7,5 @@ var userSchema = new mongoose.Schema({
     mobile: String
 })
 
-var User = mongoose.Model("User", userSchema)
+var User = mongoose.model("User", userSchema)
 module.exports = User

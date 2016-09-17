@@ -49,7 +49,7 @@ class RedirectPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.main.userId
+        userId: state.main.get("userId")
     }
 }
 
