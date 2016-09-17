@@ -31,7 +31,11 @@ class Header extends Component {
                 title="NAB"
                 iconElementLeft={
                     <IconButton onClick={() => {
-                        this.context.router.push("/send")
+                        if (this.props.userId === 1) {
+                            this.context.router.push("/send")
+                        } else {
+                            this.context.router.push("/receive")
+                        }
                     }}>
                         <SendIcon color={white}/>
                     </IconButton>
@@ -51,6 +55,12 @@ class Header extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        userId: state.main.get("userId")
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setUserId: id => {
@@ -59,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
