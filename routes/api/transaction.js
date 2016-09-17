@@ -85,7 +85,7 @@ router.post("/verify", function(req, res, next) {
             res.json({
                 success: true,
                 message: "Receiver verification succeeded",
-                data: transaction
+                data: transaction[0]
             })
         }
     })
