@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Reactable from 'reactable'
 import { fetchTransactions } from '../actions/transactions'
 import { connect } from 'react-redux'
 import { Grid, Row } from 'react-inline-grid'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 
 class HomeContainer extends Component {
@@ -12,42 +12,38 @@ class HomeContainer extends Component {
     }
 
     render() {
-        const { Table, Th, Thead, Tr, Td} = Reactable
+        // const { Table, Th, TableHeader, Tr, Td} = Reactable
         return (
             <Grid>
                 <Row is="center">
                     <Table>
-                        <Thead>
-                        <Th column="timestamp">
-                            <strong>Timestamp</strong>
-                        </Th>
-                        <Th column="receiverId">
-                            <strong>Receiver</strong>
-                        </Th>
-                        <Th column="amount">
-                            <strong>Amount (HKD)</strong>
-                        </Th>
-                        <Th column="success">
-                            <strong>Completed</strong>
-                        </Th>
-                        </Thead>
-                        {
-                            this.props.transactions.map(transaction => {
-                                transaction = transaction[1]
-                                return (
-                                    <Tr key={transaction._id}>
-                                        <Td column="timestamp" key={1}>{transaction.timestamp}</Td>
-                                        <Td column="receiverId" key={2}>{transaction.receiverId}</Td>
-                                        <Td column="amount" key={3}>{transaction.amount}</Td>
-                                        <Td column="success" key={4} style={transaction.success ? {color: "green"} :
-                                        {color: "red"}
-                                        }>
-                                            {transaction.success}
-                                        </Td>
-                                    </Tr>
-                                )
-                            })
-                        }
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Timestamp</TableHeaderColumn>
+                                <TableHeaderColumn>Receiver</TableHeaderColumn>
+                                <TableHeaderColumn>Amount (HKD)</TableHeaderColumn>
+                                <TableHeaderColumn>Completed</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {
+                                this.props.transactions.map(transaction => {
+                                    transaction = transaction[1]
+                                    return (
+                                        <TableRow key={transaction._id}>
+                                            <TableRowColumn key={1}>{transaction.timestamp}</TableRowColumn>
+                                            <TableRowColumn key={2}>{transaction.receiverId}</TableRowColumn>
+                                            <TableRowColumn key={3}>{transaction.amount}</TableRowColumn>
+                                            <TableRowColumn key={4} style={transaction.success ? {color: "green"} :
+                                            {color: "red"}
+                                            }>
+                                                {transaction.success.toString()}
+                                            </TableRowColumn>
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </TableBody>
                     </Table>
                 </Row>
             </Grid>

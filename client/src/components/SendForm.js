@@ -124,6 +124,7 @@ export default class SendForm extends Component {
                             hintText="Receiver Password"
                             onChange={this.handlePasswordChange}
                             errorText={this.state.errorPassword}
+                            type="password"
                         />
                     </Row>
                    <Row is="center">

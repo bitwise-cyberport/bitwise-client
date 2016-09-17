@@ -58,6 +58,7 @@ export default class ReceiveForm extends Component {
                                 </Row>
                                 <Row is="center">
                                     <TextField hintText="Enter your password"
+                                               type="password"
                                                onChange={this.handlePasswordChange}/>
                                 </Row>
                                 <Row is="center">
