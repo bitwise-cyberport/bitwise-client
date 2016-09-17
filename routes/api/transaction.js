@@ -13,6 +13,7 @@ const schedule = require("node-schedule")
 const moment = require("moment")
 const mailgun = require("mailgun").Mailgun
 const mg = new mailgun(process.env.MAILGUN_KEY)
+const host_email = "nab@nab.com"
 
 /*
 {
@@ -67,7 +68,7 @@ const scheduleInTwo = (time, transaction) => {
                         if (err) {
                             console.log(err)
                         } else if (user) {
-                            mg.sendText("", user.email, "NAB - Transaction confirmation delay", "Dear loyal customer,\n " +
+                            mg.sendText(host_email, user.email, "NAB - Transaction confirmation delay", "Dear loyal customer,\n " +
                                 "your transaction seems to be taking a lot of time to go through")
                         }
                     })
@@ -212,6 +213,14 @@ router.post("/confirm", function(req, res, next) {
                             console.log("changed success to true")
                         }
                     })
+                    mg.sendText(host_email, user.email, "NAB - Transaction Complete",
+                        "Your transaction of " + transaction.amount + " HKD has been successfully collected at "
+                    + moment().format("dddd, hA"), null, null, function(err) {
+                            if (err) {
+                                console.log("mailgun:")
+                                console.log(err)
+                            }
+                        })
                 }
             })
         }
