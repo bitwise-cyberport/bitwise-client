@@ -1,18 +1,19 @@
 {
-  "name": "express_boilerplate",
-  "version": "1.0.0",
+  "name": "react_express",
+  "version": "0.1.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nf start -p 3000",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server.js"
   },
-  "author": "",
+  "author": "Daniel Hsing <hsing.daniel@gmail.com> (http://arthelon.github.io)",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.14.0",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
-    "express": "^4.14.0",
     "jade": "^1.11.0",
     "mongoose": "^4.5.7"
   }
