@@ -4,6 +4,7 @@ var mongoose = require("mongoose")
 var app = express()
 var server = http.createServer(app)
 var bodyParser = require("body-parser")
+var cors = require("cors")
 
 require("dotenv").config() //loads environment variables from .env file
 
@@ -12,6 +13,7 @@ app.use(express.static(__dirname + "/public"))
 /** Middleware **/
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);
