@@ -4,11 +4,15 @@ import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import reactCSS from 'reactcss'
 import {PAYPAL_TOKEN} from '../constants/config'
-import {createFetch, base, header, method, json} from 'http-client'
+import {createFetch, base, header, method, json, parseJSON} from 'http-client'
 
 export default class SendForm extends Component {
 
-
+    // static contextTypes = {
+    //     router: React.PropTypes.shape({
+    //         push: React.PropTypes.func
+    //     })
+    // }
 
     state = {
         val: {}
@@ -36,12 +40,17 @@ export default class SendForm extends Component {
                         }
                     }
                 ]
-            })
+            }),
+            parseJSON()
         )
         fetch("/v1/payments/payment").then(resp => {
-            const data = resp.body
-            if (data.status == "created") {
-
+            const data = resp.jsonData
+            console.log(data)
+            if (data.state == "created") {
+                const redirect_link = data.links.filter(link => {
+                    return link.method == "REDIRECT"
+                })[0].href
+                location.href = redirect_link
             }
         }, err => {
             console.log(err)
