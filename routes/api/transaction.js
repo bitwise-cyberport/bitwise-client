@@ -68,7 +68,7 @@ const scheduleInTwo = (time, transaction) => {
                         if (err) {
                             console.log(err)
                         } else if (user) {
-                            mg.sendText(host_email, user.email, "NAB - Transaction confirmation delay", "Dear loyal customer,\n " +
+                            mg.sendText(host_email, user.mailgun, "NAB - Transaction confirmation delay", "Dear loyal customer,\n " +
                                 "your transaction seems to be taking a lot of time to go through")
                         }
                     })
@@ -213,14 +213,27 @@ router.post("/confirm", function(req, res, next) {
                             console.log("changed success to true")
                         }
                     })
-                    mg.sendText(host_email, user.email, "NAB - Transaction Complete",
-                        "Your transaction of " + transaction.amount + " HKD has been successfully collected at "
-                    + moment().format("dddd, hA"), null, null, function(err) {
-                            if (err) {
-                                console.log("mailgun:")
-                                console.log(err)
-                            }
-                        })
+                    User.findOne({
+                        userId: transaction.senderId
+                    }, (err, user) => {
+                        if (err) {
+                            console.log("Error while getting sender user:")
+                            console.log(err)
+                        } else if (!user) {
+                            console.log("Sender user not found")
+                        } else {
+                            mg.sendText(host_email, user.mailgun, "NAB - Transaction Complete",
+                                "Your transaction of " + transaction.amount + " HKD has been successfully collected at "
+                                + moment().format("dddd, hA"), function(err) {
+                                    if (err) {
+                                        console.log("mailgun:")
+                                        console.log(err)
+                                    } else {
+                                        console.log("mailgun: sendText()")
+                                    }
+                                })
+                        }
+                    })
                 }
             })
         }

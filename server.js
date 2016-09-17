@@ -36,14 +36,16 @@ var User = require('./models/User')
 //     name: "Daniel",
 //     password: "nabnabnabnab",
 //     mobile: "+85297098969",
-//     email: "test@nab.com"
+//     email: "test@nab.com",
+//     mailgun: "hsing.daniel@gmail.com"
 // })
 // User.create({
 //     userId: 2,
 //     name: "Nab",
 //     password: "nabnabnabnab",
 //     mobile: "+85297098969",
-//     email: "admin@nab.com"
+//     email: "admin@nab.com",
+//     mailgun: "hsing.daniel@gmail.com"
 // })
 
 
