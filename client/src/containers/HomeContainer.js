@@ -39,7 +39,11 @@ class HomeContainer extends Component {
                                         <Td column="timestamp" key={1}>{transaction.timestamp}</Td>
                                         <Td column="receiverId" key={2}>{transaction.receiverId}</Td>
                                         <Td column="amount" key={3}>{transaction.amount}</Td>
-                                        <Td column="success" key={4}>{transaction.success}</Td>
+                                        <Td column="success" key={4} style={transaction.success ? {color: "green"} :
+                                        {color: "red"}
+                                        }>
+                                            {transaction.success}
+                                        </Td>
                                     </Tr>
                                 )
                             })

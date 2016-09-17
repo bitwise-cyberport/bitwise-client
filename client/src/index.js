@@ -6,6 +6,7 @@ import getRoutes from './routes'
 import configureStore from './store'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
+import "./index.css"
 
 let store = configureStore()
 

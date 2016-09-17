@@ -28,7 +28,7 @@ class Header extends Component {
     render() {
         return (
             <AppBar
-                title="NAB"
+                title={<span style={{cursor: "pointer"}}>NAV</span>}
                 iconElementLeft={
                     <IconButton onClick={this.props.userId === 1 ?
                         () => {
@@ -42,6 +42,9 @@ class Header extends Component {
                         <SendIcon color={white}/>
                     </IconButton>
                 }
+                onTitleTouchTap={() => {
+                    this.context.router.push("/")
+                }}
                 iconElementRight={
                     <IconMenu
                         iconButtonElement={<IconButton><AccessibilityIcon /></IconButton>}
