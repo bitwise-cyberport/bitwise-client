@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ReceiveForm from '../components/ReceiveForm'
-import { verifyTransaction, confirmTransaction } from '../actions/transactions'
+import { verifyTransaction, confirmTransaction, setPendingTransaction } from '../actions/transactions'
 
 const mapStateToProps = (state) => {
     return {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         confirmTransaction: (userId, transactionId) => {
             dispatch(confirmTransaction(userId, transactionId))
+        },
+        setPendingTransaction: (transaction) => {
+            dispatch(setPendingTransaction(transaction))
         }
     }
 }

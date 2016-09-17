@@ -5,6 +5,12 @@ import { Grid, Row } from 'react-inline-grid'
 
 export default class ReceiveForm extends Component {
 
+    static contextTypes = {
+        router: React.PropTypes.shape({
+            push: React.PropTypes.func
+        })
+    }
+
     state = {
         val: {}
     }
@@ -79,6 +85,10 @@ export default class ReceiveForm extends Component {
                                     <h1>Transaction amount is: {this.props.transaction.amount} HKD</h1>
                                 </Row>
                                 <Row is="center">
+                                    <FlatButton secondary={true} label="Cancel" onClick={() => {
+                                        this.props.setPendingTransaction({})
+                                        this.context.router.push("/")
+                                    }}/>
                                     <FlatButton primary={true} label="Continue" onClick={() => {
                                         this.props.confirmTransaction(this.props.userId, this.props.transaction._id)
                                     }}/>
