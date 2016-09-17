@@ -71,7 +71,8 @@ router.post("/verify", function(req, res, next) {
     console.log(req.body)
     Transaction.find({
         receiverId: req.body.receiverId,
-        receiverPassword: req.body.receiverPassword
+        receiverPassword: req.body.receiverPassword,
+        success: false
     }, (err, transaction) => {
         console.log(transaction)
         if (err) {
@@ -97,7 +98,8 @@ transactionId: string
  */
 router.post("/confirm", function(req, res, next) {
     Transaction.findOne({
-        _id: req.body.transactionId
+        _id: req.body.transactionId,
+        success: false
     }, function(err, transaction) {
         if (err) {
             next(err)
@@ -154,6 +156,18 @@ router.post("/confirm", function(req, res, next) {
                                 message: "payout sent",
                                 data: payout
                             })
+                        }
+                    })
+                    Transaction.findOneAndUpdate({
+                        _id: req.body.transactionId,
+                        success: false
+                    }, {success: true}, {upsert: true}, (err, transaction) => {
+                        if (err) {
+                            console.log(err)
+                        } else if (!transaction) {
+                            console.log("transaction not found")
+                        } else {
+                            console.log("changed success to true")
                         }
                     })
                 }
