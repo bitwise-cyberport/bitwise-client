@@ -3,7 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import SendIcon from 'material-ui/svg-icons/content/send'
-import { setUserId} from '../actions/users'
+import { setUserId } from '../actions/misc'
 import AccessibilityIcon from 'material-ui/svg-icons/action/accessibility'
 import MenuItem from 'material-ui/MenuItem'
 import { white } from 'material-ui/styles/colors'

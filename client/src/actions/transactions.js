@@ -2,6 +2,8 @@ import * as transConstants from "../constants/transConstants"
 import { API_URL } from '../constants/config'
 import {createFetch, json, parseJSON, method, base} from 'http-client'
 import axios from "axios"
+import { setMessage } from './misc'
+import { batchActions } from 'redux-batched-actions'
 
 export function verifyTransaction(receiverId, receiverPassword) {
     return async function(dispatch) {
@@ -18,9 +20,12 @@ export function verifyTransaction(receiverId, receiverPassword) {
             const resp = await verifyReq("/api/transaction/verify")
             if (resp.jsonData.success) {
                 return dispatch(setPendingTransaction(resp.jsonData.data))
+            } else {
+                return dispatch(setMessage(true, "Failed to verify transaction"))
             }
         } catch (err) {
             console.log(err)
+            return dispatch(setMessage(true, "Failed to verify transaction"))
         }
     }
 
@@ -40,9 +45,17 @@ export function confirmTransaction(userId, transactionId) {
             )
             const resp = await confirmReq("/api/transaction/confirm")
             console.log(resp.jsonData)
-            return dispatch(setPendingTransaction({}))
+            if (resp.jsonData.success) {
+                return dispatch(batchActions([
+                    setPendingTransaction({}),
+                    setMessage(false, "Transaction confirmed")
+                ]))
+            } else {
+                return dispatch(setMessage(true, "Failed to confirm transaction"))
+            }
         } catch (err) {
             console.log("confirm transaction err: " + err)
+            return dispatch(setMessage(true, "Failed to confirm transaction"))
         }
     }
 }

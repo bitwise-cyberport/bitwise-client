@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './components/Header'
+import Message from './components/Message'
 
 class App extends Component {
 
@@ -20,6 +21,7 @@ class App extends Component {
         <div>
           <Header/>
           {this.props.children}
+          <Message/>
         </div>
     );
   }
