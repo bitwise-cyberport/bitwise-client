@@ -42,7 +42,7 @@ export default class ReceiveForm extends Component {
     }
 
     render() {
-        console.log(this.props.transaction)
+        console.log(this.props.userId)
         return (
             <div>
                 {
