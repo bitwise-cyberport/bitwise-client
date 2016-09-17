@@ -22,7 +22,7 @@ class Header extends Component {
     }
 
     handleChangeSingle = (event, value) => {
-        this.props.setUserId(value)
+        this.props.setUserId(parseInt(value))
     }
 
     render() {
@@ -30,13 +30,15 @@ class Header extends Component {
             <AppBar
                 title="NAB"
                 iconElementLeft={
-                    <IconButton onClick={() => {
-                        if (this.props.userId === 1) {
+                    <IconButton onClick={this.props.userId === 1 ?
+                        () => {
+                            console.log(this.props.userId)
                             this.context.router.push("/send")
-                        } else {
+                        } :
+                        () => {
                             this.context.router.push("/receive")
                         }
-                    }}>
+                    }>
                         <SendIcon color={white}/>
                     </IconButton>
                 }
@@ -56,6 +58,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.main.get("userId"))
     return {
         userId: state.main.get("userId")
     }
