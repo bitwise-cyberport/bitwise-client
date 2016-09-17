@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import reactCSS from 'reactcss'
-import {PAYPAL_TOKEN} from '../constants/config'
+import {PAYPAL_TOKEN, REDIRECT_URL, CANCEL_URL, PAYPAL_BASE_URL} from '../constants/config'
 import {createFetch, base, header, method, json, parseJSON} from 'http-client'
+import ls from 'local-storage'
 
 export default class SendForm extends Component {
 
@@ -20,7 +21,7 @@ export default class SendForm extends Component {
 
     makeTransaction = () => {
         const fetch = createFetch(
-            base("https://api.sandbox.paypal.com"),
+            base(PAYPAL_BASE_URL),
             method("POST"),
             header("Authorization", "Bearer " + PAYPAL_TOKEN),
             json({
@@ -29,15 +30,16 @@ export default class SendForm extends Component {
                     payment_method: "paypal"
                 },
                 redirect_urls: {
-                    return_url: 'http://return_URL_here',
-                    cancel_url: 'http://return_URL_here'
+                    return_url: REDIRECT_URL,
+                    cancel_url: CANCEL_URL
                 },
                 transactions: [
                     {
                         amount: {
                             total: this.state.val.amount.toString(),
                             currency: "HKD"
-                        }
+                        },
+                        description: "NAB transaction",
                     }
                 ]
             }),
@@ -45,12 +47,15 @@ export default class SendForm extends Component {
         )
         fetch("/v1/payments/payment").then(resp => {
             const data = resp.jsonData
-            console.log(data)
             if (data.state == "created") {
-                const redirect_link = data.links.filter(link => {
+                console.log("payment creation succeeded")
+                console.log(this.state.val.id, this.state.val.password)
+                ls("userId", this.state.val.id)
+                ls("userPassword", this.state.val.password)
+                ls("amount", this.state.val.amount)
+                location.href  = data.links.filter(link => {
                     return link.method == "REDIRECT"
                 })[0].href
-                location.href = redirect_link
             }
         }, err => {
             console.log(err)

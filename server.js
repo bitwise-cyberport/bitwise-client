@@ -9,7 +9,6 @@ require("dotenv").config() //loads environment variables from .env file
 
 app.use(express.static(__dirname + "/public"))
 
-
 /** Middleware **/
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -32,7 +31,9 @@ mongoose.connection.on("error", console.error.bind(console, 'connection error:')
 
 /** Routes setup **/
 var apiBaseRoute = require("./routes/api/api")
+var apiTransactionRoute = require("./routes/api/transaction")
 app.use("/api", apiBaseRoute)
+app.use("/api/transaction", apiTransactionRoute)
 
 
 /** Error handlers **/
