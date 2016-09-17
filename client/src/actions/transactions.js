@@ -1,7 +1,6 @@
 import * as transConstants from "../constants/transConstants"
 import { API_URL } from '../constants/config'
 import {createFetch, json, parseJSON, method, base} from 'http-client'
-import axios from "axios"
 import { setMessage } from './misc'
 import { batchActions } from 'redux-batched-actions'
 
@@ -63,12 +62,13 @@ export function confirmTransaction(userId, transactionId) {
 export function fetchTransactions(userId) {
     return async function(dispatch) {
         try {
-            let transactions = await axios.get("/transaction", {
-                params: {
-                    userId
-                }
-            })
-            return dispatch(setTransactions(transactions))
+            const fetchTrans = createFetch(
+                base(API_URL),
+                method("GET"),
+                parseJSON()
+            )
+            const resp = await fetchTrans("/api/transaction/"+userId)
+            return dispatch(setTransactions(resp.jsonData.data))
         } catch (err) {
             console.log(err)
         }

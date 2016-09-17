@@ -26,7 +26,8 @@ router.post("/", function(req, res, next) {
         receiverPassword: req.body.receiverPassword,
         amount: req.body.amount,
         success: false,
-        paymentId: req.body.paymentId
+        paymentId: req.body.paymentId,
+        paymentUrl: req.body.paymentUrl
     }, function(err) {
         if (err) {
             next(err)
@@ -45,7 +46,7 @@ router.post("/", function(req, res, next) {
 router.get("/:userId", function(req, res, next) {
     Transaction.find({
         senderId: req.params.userId
-    }, (err, transactions) => {
+    }).sort({timestamp: -1}).exec((err, transactions) => {
         if (err) {
            next(err)
         } else if (transactions.length == 0) {

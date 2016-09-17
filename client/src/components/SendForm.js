@@ -52,7 +52,7 @@ export default class SendForm extends Component {
 
     storeAndRedirect = function(url) {
         console.log("payment creation succeeded")
-        window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount
+        window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount + ";" +
         console.log(this.state.val.id, this.state.val.password)
         location.href  = url
     }
