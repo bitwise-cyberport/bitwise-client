@@ -49,4 +49,32 @@ router.get("/:userId", function(req, res, next) {
     })
 })
 
+/*
+receiverId: string,
+receiverPassword: string
+ */
+router.post("/verify", function(req, res, next) {
+    console.log(req.body)
+    Transaction.find({
+        receiverId: req.body.receiverId,
+        receiverPassword: req.body.receiverPassword
+    }, (err, transaction) => {
+        console.log(transaction)
+        if (err) {
+            next(err)
+        } else if (transaction.length == 0) {
+            res.status(401).json({
+                success: false,
+                message: "invalid receiver id or password"
+            })
+        } else {
+            res.json({
+                success: true,
+                message: "Receiver verification succeeded",
+                data: transaction
+            })
+        }
+    })
+})
+
 module.exports = router

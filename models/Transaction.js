@@ -5,6 +5,7 @@ var transactionSchema = new mongoose.Schema({
     receiverId: String,
     receiverPassword: String,
     amount: Number,
+    paymentUrl: String,
     timestamp: { type: Date, default: Date.now() },
     success: Boolean,
     paymentId: String

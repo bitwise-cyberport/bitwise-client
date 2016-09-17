@@ -30,6 +30,13 @@ mongoose.connect(process.env.DATABASE_URL, function(err) {
 })
 mongoose.connection.on("error", console.error.bind(console, 'connection error:'))
 
+var User = require('./models/User')
+// User.create({
+//     userId: 1,
+//     name: "Daniel",
+//     password: "nabnabnabnab",
+//     mobile: "+85297098969"
+// })
 
 /** Routes setup **/
 var apiBaseRoute = require("./routes/api/api")
@@ -64,6 +71,8 @@ app.use(function (err, req, res, next) {
     })
     console.log(err)
 });
+
+
 
 
 /** Port binding **/
