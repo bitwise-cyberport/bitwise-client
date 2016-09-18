@@ -3,6 +3,7 @@ import { fetchTransactions } from '../actions/transactions'
 import { connect } from 'react-redux'
 import { Grid, Row } from 'react-inline-grid'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import moment from 'moment'
 
 
 class HomeContainer extends Component {
@@ -31,7 +32,7 @@ class HomeContainer extends Component {
                                     transaction = transaction[1]
                                     return (
                                         <TableRow key={transaction._id}>
-                                            <TableRowColumn key={1}>{transaction.timestamp}</TableRowColumn>
+                                            <TableRowColumn key={1}>{moment(transaction.timestamp).format("MMM Do HH:mmA ")}</TableRowColumn>
                                             <TableRowColumn key={2}>{transaction.receiverId}</TableRowColumn>
                                             <TableRowColumn key={3}>{transaction.amount}</TableRowColumn>
                                             <TableRowColumn key={4} style={transaction.success ? {color: "green"} :
