@@ -22,6 +22,7 @@ class Header extends Component {
     }
 
     handleChangeSingle = (event, value) => {
+        console.log(value)
         this.props.setUserId(parseInt(value, 10))
     }
 

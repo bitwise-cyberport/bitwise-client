@@ -32,7 +32,7 @@ class HomeContainer extends Component {
                                     transaction = transaction[1]
                                     return (
                                         <TableRow key={transaction._id}>
-                                            <TableRowColumn key={1}>{moment(transaction.timestamp).format("MMM Do HH:mmA ")}</TableRowColumn>
+                                            <TableRowColumn key={1}>{moment(transaction.timestamp, moment.ISO_8601).format("MMM Do HH:mmA ")}</TableRowColumn>
                                             <TableRowColumn key={2}>{transaction.receiverId}</TableRowColumn>
                                             <TableRowColumn key={3}>{transaction.amount}</TableRowColumn>
                                             <TableRowColumn key={4} style={transaction.success ? {color: "green"} :
