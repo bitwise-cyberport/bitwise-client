@@ -1,0 +1,14 @@
+{
+  "name": "line-chart",
+  "version": "1.0.0",
+  "description": "A Pen created at CodePen.io. You can find this one at http://codepen.io/Arthelon/pen/ALXwJm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
