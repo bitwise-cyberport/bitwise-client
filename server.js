@@ -85,8 +85,6 @@ app.use(function (err, req, res, next) {
 });
 
 
-
-
 /** Port binding **/
 server.listen(process.env.PORT_NUMBER, function(err) {
     if (err) {

@@ -52,10 +52,10 @@ export default class SendForm extends Component {
     }
 
     storeAndRedirect = function(url) {
-        console.log("payment creation succeeded")
+        const match = /(https:\/\/www.)(paypal.*)/.exec(url)
         window.name = this.state.val.id + ";" + this.state.val.password + ";" + this.state.val.amount
         console.log(this.state.val.id, this.state.val.password)
-        location.href  = url
+        location.href  = match ? match[1] + "sandbox." + match[2] : url
     }
 
     handleIdChange = (e) => {
